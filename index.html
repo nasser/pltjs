@@ -4,7 +4,7 @@
 
 <title>Snipe</title>
 
-<pre id="grammar">
+<grammar>
   start                         = expression*
 
   expression                    = space exp:expression_content space ('\n' / ';' )* space { return exp }
@@ -39,57 +39,58 @@
 
   space                         = [ ]* { return undefined }
   mandatory_space               = [ ]+ { return undefined }
-</pre>
+</grammar>
 
 <h3>Number Literals</h3>
-<pre class="good">20</pre>
-<pre class="good">.75</pre>
-<pre class="good">42.13</pre>
+<code>20</code>
+<code>.75</code>
+<code>42.13</code>
+<code bad>75.</code>
 
 <h3>String Literals</h3>
-<pre class="good">"double quote"</pre>
-<pre class="good">'single</pre>
-<pre class="good">'*</pre>
+<code>"double quote"</code>
+<code>'single</code>
+<code>'*</code>
 
 <h3>Labels</h3>
-<pre class="good">label</pre>
-<pre class="good">hyphenated-label</pre>
+<code>label</code>
+<code>hyphenated-label</code>
 
 <h3>Operators</h3>
-<pre class="good">infix: 1</pre>
-<pre class="good">30 = 50</pre>
-<pre class="good">complex ?::= operators</pre>
-<pre class="good">subtract - labels</pre>
+<code>infix: 1</code>
+<code>30 = 50</code>
+<code>complex ?::= operators</code>
+<code>subtract - labels</code>
 
 <h3>Scopes</h3>
-<pre class="good">{ 'scope }</pre>
-<pre class="good">{ 'scope; }</pre>
-<pre class="good">{ }</pre>
-<pre class="good">{ a=1; b=1 }</pre>
-<pre class="good">{ a=1; b=1; }</pre>
-<pre class="good">{ scope-as:"record"; name='ramsey; age=26; job='hacker }</pre>
-<pre class="good">{ multi: line
+<code>{ 'scope }</code>
+<code>{ 'scope; }</code>
+<code>{ }</code>
+<code>{ a=1; b=1 }</code>
+<code>{ a=1; b=1; }</code>
+<code>{ scope-as:"record"; name='ramsey; age=26; job='hacker }</code>
+<code>{ multi: line
 name = 'ramsey
 age  = 26
-job  = 'hacker }</pre>
-<pre class="good">square = { x * x }</pre>
-<pre class="good">{ sub-scope: { name = 'nested } }</pre>
-<pre class="good">{ sub-scope: { name = 'nested } }</pre>
-<pre class="good">[draw-point {x:2; y:90}]</pre>
-<pre class="good">[draw-point {x:2 y:90}]</pre>
-<pre class="good">[draw-point x:2 y:90]</pre>
-<pre class="good">[{x:20} x:2 y:90]</pre>
-<pre class="good">draw-point x:2 y:90</pre>
+job  = 'hacker }</code>
+<code>square = { x * x }</code>
+<code>{ sub-scope: { name = 'nested } }</code>
+<code>{ sub-scope: { name = 'nested } }</code>
+<code>[draw-point {x:2; y:90}]</code>
+<code>[draw-point {x:2 y:90}]</code>
+<code>[draw-point x:2 y:90]</code>
+<code>[{x:20} x:2 y:90]</code>
+<code>draw-point x:2 y:90</code>
 
 <h3>Sandbox</h3>
-<pre class="good">fib = { n < 2 if-true: { n } else: { fib:n-1 + fib:n-2 } }</pre>
-<pre class="good">{ 0:'ramsey }</pre>
-<pre class="good">result = [square x=12]</pre>
-<pre class="good">result = square x=12</pre>
-<pre class="good">result = square ! x=12</pre>
-<pre class="good">square = { x * x }
-result = [square x=12]</pre>
-<pre class="good">square = { value = x * x }
-result = [[square x=12] value]</pre>
-<pre class="good">square = { value = [multiply a=x b=x] }
-result = [[square x=12] value]</pre>
+<code>fib = { n < 2 if-true: { n } else: { fib:n-1 + fib:n-2 } }</code>
+<code>{ 0:'ramsey }</code>
+<code>result = [square x=12]</code>
+<code>result = square x=12</code>
+<code>result = square ! x=12</code>
+<code>square = { x * x }
+result = [square x=12]</code>
+<code>square = { value = x * x }
+result = [[square x=12] value]</code>
+<code>square = { value = [multiply a=x b=x] }
+result = [[square x=12] value]</code>

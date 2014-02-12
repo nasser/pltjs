@@ -1,47 +1,64 @@
 /*
- * plt.js - A programming language prototyping tool
- * Ramsey Nasser, Feb 2014
+ * plt.js 0.1.0
+ * 
+ * http://github.com/nasser/pltjs
+ * 
+ * Copyright (c) 2014 Ramsey Nasser
+ * Licensend under the MIT license.
  */
-function flatten(array){
-  var flat = [];
-  for (var i = 0, l = array.length; i < l; i++){
-    var type = Object.prototype.toString.call(array[i]).split(' ').pop().split(']').shift().toLowerCase();
-    if (type) { flat = flat.concat(/^(array|collection|arguments|object)$/.test(type) ? flatten(array[i]) : array[i]); }
-  }
-  return flat;
-}
+
+// configuration object
+// refreshes every second by default
+var PLT = {
+  refresh: true,
+  refreshTime: 1000
+};
 
 window.onload = function() {
-  var grammarElement = document.querySelector("#grammar");
+  // inject css style to format code elements and body text
+  var cssNode = document.createElement('style');
+  cssNode.innerHTML = "body { font-family: sans-serif; }";
+  cssNode.innerHTML += "code { display: block; white-space: pre; margin-bottom: 1em; }";
+  document.body.appendChild(cssNode);
+
+  // extract PEG grammar from <grammar> element and build parser
+  var grammarElement = document.querySelector("grammar");
+  var parser = PEG.buildParser(grammarElement.textContent)
   grammarElement.parentNode.removeChild(grammarElement);
 
-  var Parser = PEG.buildParser(grammarElement.textContent)
-
-  var goods = document.querySelectorAll(".good")
+  // collect all correct code examples and try and parse them
+  var goods = document.querySelectorAll("code:not([bad])")
   for (var i = 0; i < goods.length; i++) {
     try {
-      var ast = Parser.parse(goods[i].textContent);
+      var ast = parser.parse(goods[i].textContent);
       var str = JSON.stringify(ast);
+      // the code parsed, append result in grey
       goods[i].innerHTML += "\n<em style='color:gray'>&#8627; " + str + "</em>";
 
     } catch (err) {
+      // the code did not parse, append result in red
       goods[i].innerHTML += "\n<em style='color:red;'>&#8627; " + err.message + "</em>";
 
     }
   }
 
-  var bads = document.querySelectorAll(".bad")
+  // collect all incorrect code examples and try and parse them
+  var bads = document.querySelectorAll("code[bad]")
   for (var i = 0; i < bads.length; i++) {
     try {
-      var ast = Parser.parse(bads[i].textContent);
+      var ast = parser.parse(bads[i].textContent);
       var str = JSON.stringify(ast);
+      // the code parsed, append result in red
       bads[i].innerHTML += "\n<em style='color:red;'>&#8627; " + str + "</em>";
 
     } catch (err) {
+      // the code did not parse, append result in gray
       bads[i].innerHTML += "\n<em style='color:gray'>&#8627; " + err.message + "</em>";
 
     }
   }
-}
 
-setTimeout(function() { window.location.reload(true) }, 1000);
+  // refresh the page if refreshing is enabled
+  if(PLT.refresh)
+    setTimeout(function() { window.location.reload(true) }, PLT.refreshTime);
+}
