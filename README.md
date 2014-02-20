@@ -40,7 +40,7 @@ Try it. It's great fun.
 
 Usage
 -----
-1. Download and extract [plt.js]()
+1. Download and extract [plt.js](https://github.com/nasser/pltjs/archive/master.zip)
 2. Copy `index.html` to `your-language.html`
 3. Open `your-language.html` in a browser
 4. Replace the `<title>` tag with the name of your language
