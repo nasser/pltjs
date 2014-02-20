@@ -57,6 +57,10 @@ Name
 ----
 PLT is short for [Programming Language Theory](http://en.wikipedia.org/wiki/Programming_language_theory), the branch of computer science that deals with the design and implementation of programming languages.
 
+Acknowledgments
+---------------
+plt.js comes out of my time as an [Eyebeam](http://eyebeam.org) exploring code as a medium of self expression.
+
 Legal
 -----
 Copyright © 2014 Ramsey Nasser. Released under the MIT License.
