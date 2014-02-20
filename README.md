@@ -59,7 +59,7 @@ PLT is short for [Programming Language Theory](http://en.wikipedia.org/wiki/Prog
 
 Acknowledgments
 ---------------
-plt.js comes out of my time as an [Eyebeam](http://eyebeam.org) exploring code as a medium of self expression.
+plt.js comes out of my time as an [Eyebeam](http://eyebeam.org) Fellow exploring code as a medium of self expression.
 
 Legal
 -----
