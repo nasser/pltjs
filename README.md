@@ -2,6 +2,42 @@ plt.js
 ======
 A programming language design prototyping tool
 
+Overview
+--------
+
+plt.js is an environment for writing and testing programming language grammars. You write your language's grammar and example code in an HTMLish syntax, and plt.js will attempt to parse your code against your grammar and display the result.
+
+It looks like this:
+
+```html
+<grammar>
+  start       = '(' '+' space a:number ' ' b:number space ')' { return a + b }
+  number      = d:digit+ { return parseInt( d.join('') ) }
+  digit       = [0123456789]
+  space       = ' '*
+</grammar>
+
+<h3>Addition</h3>
+<code>(+ 5 10)</code>
+<code>(+7 13)</code>
+<code>(+ 7 13)</code>
+```
+
+Which would output
+
+```
+Addition
+
+(+ 5 10)
+↳ 15
+(+7 13)
+↳ 20
+(+ 7 13)
+↳ 20
+```
+
+Try it. It's great fun.
+
 Usage
 -----
 1. Download and extract [plt.js]()
@@ -16,6 +52,10 @@ Usage
 The file is set to automatically refresh every second, so any changes you make to the grammar or examples will be visible immediatley. This allows you to fluidly sketch your language and try out ideas at your leisure.
 
 The only constraint is that your `your-language.html` file must be in the same folder as the `js/` folder where plt.js keeps its files.
+
+Name
+----
+PLT is short for [Programming Language Theory](http://en.wikipedia.org/wiki/Programming_language_theory), the branch of computer science that deals with the design and implementation of programming languages.
 
 Legal
 -----
