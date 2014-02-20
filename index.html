@@ -2,95 +2,43 @@
 <script src="js/peg.js"></script>
 <script src="js/plt.js"></script>
 
-<title>Snipe</title>
+<script type="text/javascript">
+  // uncomment next line to disable refresh
+  // PLT.refresh = false;
+
+  // write helper functions/semantics here
+</script>
+
+<title>Numbers</title>
+
+<!--
+
+PEG syntax quick reference 
+
+'x'   : match the literal character 'x'
+x+    : match x 1 or more times
+x*    : match x 0 or more times
+x?    : match x 0 or 1 times
+!x    : match anything but the match x
+x/y   : match x or y, trying in that order
+[xyz] : match one of the literal character 'x', 'y', or 'z'
+v:x   : assign the result of the match x to the variable v
+
+Full documentation: http://pegjs.majda.cz/documentation#grammar-syntax-and-semantics-parsing-expression-types
+
+-->
 
 <grammar>
-  start                         = expression*
+  start       = '(' '+' space a:number ' ' b:number space ')' { return a + b }
 
-  expression                    = space exp:expression_content space ('\n' / ';' )* space { return exp }
-  terminated_expression         = space exp:expression_content space ('\n' / ';' )+  space { return exp }
-  expression_content            = message_send / infix / literal / paren_expression
-  paren_expression              = '(' exp:expression ')' { return exp }
+  number      = d:digit+ { return parseInt( d.join('') ) }
+  digit       = [0123456789]
 
-  message_send                  = '[' r:expression_content mandatory_space m:expression_content ']' { return { receiver:r, message:m } } / 
-                                  '[' r:expression_content mandatory_space m:naked_scope ']' { return { receiver:r, message:m } } 
-
-  literal                       = scope / string / number / label
-
-  scope                         = '{' exps:expression+ last:expression? '}' { exps = exps.concat(last == "" ? [] : [last]); exps.push( { 'return':exps.pop() }); return { scope:exps } } /
-                                  '{' e:expression '}' { return { scope:[{'return':e}] } } /
-                                  '{' space '}' { return { scope:[{'return':null}] } }
-  naked_scope                   = exps:expression+ { exps.push( { 'return':exps.pop() }); return { scope:exps } }
-
-  infix                         = lhs:(literal) space op:operator space rhs:expression_content { return { infix:op, lhs:lhs, rhs:rhs } }
-  operator                      = o:[~`!@#\$%\^*\-+|<>&\?,.\/\\=:]+ { return o.join('') }
-
-  label                         = l:[a-zA-Z_\-]+ { return { label:l.join('') } }
-
-  string                        = single_quoted_string / double_quoted_string
-  double_quoted_string          = '"' s:[^"]+ '"' { return s.join('') }
-  single_quoted_string          = "'" s:[^ \n;\{\}\(\)]+ { return s.join('') }
-
-  number                        = float_between_01 / float / integer
-  float                         = n:digit+ '.' m:digit+ { return parseFloat( n.join('') + "." + m.join('') )}
-  float_between_01              = '.' n:digit+ { return parseFloat( "0." + n.join('') )}
-  integer                       = n:digit+ { return parseInt(n.join('')) }
-  digit                         = [0123456789]
-
-  space                         = [ ]* { return undefined }
-  mandatory_space               = [ ]+ { return undefined }
+  space       = ' '*
 </grammar>
 
-<h3>Number Literals</h3>
-<code>20</code>
-<code>.75</code>
-<code>42.13</code>
-<code bad>75.</code>
-
-<h3>String Literals</h3>
-<code>"double quote"</code>
-<code>'single</code>
-<code>'*</code>
-
-<h3>Labels</h3>
-<code>label</code>
-<code>hyphenated-label</code>
-
-<h3>Operators</h3>
-<code>infix: 1</code>
-<code>30 = 50</code>
-<code>complex ?::= operators</code>
-<code>subtract - labels</code>
-
-<h3>Scopes</h3>
-<code>{ 'scope }</code>
-<code>{ 'scope; }</code>
-<code>{ }</code>
-<code>{ a=1; b=1 }</code>
-<code>{ a=1; b=1; }</code>
-<code>{ scope-as:"record"; name='ramsey; age=26; job='hacker }</code>
-<code>{ multi: line
-name = 'ramsey
-age  = 26
-job  = 'hacker }</code>
-<code>square = { x * x }</code>
-<code>{ sub-scope: { name = 'nested } }</code>
-<code>{ sub-scope: { name = 'nested } }</code>
-<code>[draw-point {x:2; y:90}]</code>
-<code>[draw-point {x:2 y:90}]</code>
-<code>[draw-point x:2 y:90]</code>
-<code>[{x:20} x:2 y:90]</code>
-<code>draw-point x:2 y:90</code>
-
-<h3>Sandbox</h3>
-<code>fib = { n < 2 if-true: { n } else: { fib:n-1 + fib:n-2 } }</code>
-<code>{ 0:'ramsey }</code>
-<code>result = [square x=12]</code>
-<code>result = square x=12</code>
-<code>result = square ! x=12</code>
-<code>square = { x * x }
-result = [square x=12]</code>
-<code>square = { value = x * x }
-result = [[square x=12] value]</code>
-<code>square = { value = [multiply a=x b=x] }
-result = [[square x=12] value]</code>
+<h3>Addition</h3>
+<code>(+ 5 10)</code>
+<code>(+7 13)</code>
+<code>(+ 7 13)</code>
+<code>(+ 7 13 )</code>
