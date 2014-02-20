@@ -11,7 +11,9 @@
 // refreshes every second by default
 var PLT = {
   refresh: true,
-  refreshTime: 1000
+  refreshTime: 1000,
+
+  parser: null
 };
 
 window.onload = function() {
@@ -23,15 +25,15 @@ window.onload = function() {
 
   // extract PEG grammar from <grammar> element and build parser
   var grammarElement = document.querySelector("grammar");
-  var parser = PEG.buildParser(grammarElement.textContent)
+  PLT.parser = PEG.buildParser(grammarElement.textContent)
   grammarElement.parentNode.removeChild(grammarElement);
 
   // collect all correct code examples and try and parse them
   var goods = document.querySelectorAll("code:not([bad])")
   for (var i = 0; i < goods.length; i++) {
     try {
-      var ast = parser.parse(goods[i].textContent);
-      var str = JSON.stringify(ast);
+      var ast = PLT.parser.parse(goods[i].textContent);
+      var str = ast.toString ? ast.toString() : JSON.stringify(ast);
       // the code parsed, append result in grey
       goods[i].innerHTML += "\n<em style='color:gray'>&#8627; " + str + "</em>";
 
@@ -46,8 +48,8 @@ window.onload = function() {
   var bads = document.querySelectorAll("code[bad]")
   for (var i = 0; i < bads.length; i++) {
     try {
-      var ast = parser.parse(bads[i].textContent);
-      var str = JSON.stringify(ast);
+      var ast = PLT.parser.parse(bads[i].textContent);
+      var str = ast.toString ? ast.toString() : JSON.stringify(ast);
       // the code parsed, append result in red
       bads[i].innerHTML += "\n<em style='color:red;'>&#8627; " + str + "</em>";
 
