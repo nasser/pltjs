@@ -13,23 +13,6 @@
 
 <title>Numbers</title>
 
-<grammar>
-  start       = '(' '+' space a:(start / number) ' ' b:(start / number) space ')' { return a + b }
-
-  number      = d:digit+ { return parseInt( d.join('') ) }
-  digit       = [0123456789]
-
-  space       = ' '*
-</grammar>
-
-<h3>Addition</h3>
-<code>(+ 5 10)</code>
-<code>(+7 13)</code>
-<code>(+ 7 13)</code>
-<code>(+ 7 13 )</code>
-<code>(+ 7 15 )</code>
-
-
 <!--
 
 PEG syntax quick reference
@@ -46,3 +29,18 @@ v:x   : assign the result of the match x to the variable v
 Full documentation: http://pegjs.majda.cz/documentation#grammar-syntax-and-semantics-parsing-expression-types
 
 -->
+<grammar>
+  start       = '(' '+' space a:(start / number) ' ' b:(start / number) space ')' { return a + b }
+
+  number      = d:digit+ { return parseInt( d.join('') ) }
+  digit       = [0123456789]
+
+  space       = ' '*
+</grammar>
+
+<h3>Addition</h3>
+<code>(+ 5 10)</code>
+<code>(+7 13)</code>
+<code>(+ 7 13)</code>
+<code>(+ 7 13 )</code>
+<code>(+ 7 15 )</code>

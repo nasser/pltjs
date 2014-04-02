@@ -59,7 +59,7 @@ $(function() {
   for (var i = 0; i < goods.length; i++) {
     try {
       var ast = PLT.parser.parse(goods[i].textContent);
-      var str = ast.toString ? ast.toString() : JSON.stringify(ast);
+      var str = JSON.stringify(ast);
       // the code parsed, append result in grey
       goods[i].innerHTML += "\n<em style='color:gray'>&#8627; " + str + "</em>";
 
@@ -75,7 +75,7 @@ $(function() {
   for (var i = 0; i < bads.length; i++) {
     try {
       var ast = PLT.parser.parse(bads[i].textContent);
-      var str = ast.toString ? ast.toString() : JSON.stringify(ast);
+      var str = JSON.stringify(ast);
       // the code parsed, append result in red
       bads[i].innerHTML += "\n<em style='color:red;'>&#8627; " + str + "</em>";
 
