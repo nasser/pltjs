@@ -1,19 +1,38 @@
+<script src="js/jquery.js"></script>
+<script src="js/jqconsole.js"></script>
 <script src="js/sugar.js"></script>
 <script src="js/peg.js"></script>
 <script src="js/plt.js"></script>
 
 <script type="text/javascript">
-  // uncomment next line to disable refresh
-  // PLT.refresh = false;
+  // uncomment next line to enable refresh
+  // PLT.refresh = true
 
-  // write helper functions/semantics here
+  // write helper functions and semantics here
 </script>
 
 <title>Numbers</title>
 
+<grammar>
+  start       = '(' '+' space a:(start / number) ' ' b:(start / number) space ')' { return a + b }
+
+  number      = d:digit+ { return parseInt( d.join('') ) }
+  digit       = [0123456789]
+
+  space       = ' '*
+</grammar>
+
+<h3>Addition</h3>
+<code>(+ 5 10)</code>
+<code>(+7 13)</code>
+<code>(+ 7 13)</code>
+<code>(+ 7 13 )</code>
+<code>(+ 7 15 )</code>
+
+
 <!--
 
-PEG syntax quick reference 
+PEG syntax quick reference
 
 'x'   : match the literal character 'x'
 x+    : match x 1 or more times
@@ -27,18 +46,3 @@ v:x   : assign the result of the match x to the variable v
 Full documentation: http://pegjs.majda.cz/documentation#grammar-syntax-and-semantics-parsing-expression-types
 
 -->
-
-<grammar>
-  start       = '(' '+' space a:number ' ' b:number space ')' { return a + b }
-
-  number      = d:digit+ { return parseInt( d.join('') ) }
-  digit       = [0123456789]
-
-  space       = ' '*
-</grammar>
-
-<h3>Addition</h3>
-<code>(+ 5 10)</code>
-<code>(+7 13)</code>
-<code>(+ 7 13)</code>
-<code>(+ 7 13 )</code>
