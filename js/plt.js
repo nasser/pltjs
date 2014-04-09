@@ -21,7 +21,8 @@ $(function() {
   var cssNode = document.createElement('style');
   cssNode.innerHTML = "body { font-family: sans-serif; }";
   cssNode.innerHTML += "code { display: block; white-space: pre; margin-bottom: 1em; }";
-  cssNode.innerHTML += "#repl { height: 50px; }";
+  cssNode.innerHTML += "#repl { height: 20%; position: fixed; right: 0.5em; bottom: 0.5em; left: 0.5em; padding: 0.75em; overflow: scroll; background-color: rgb(240,240,240); box-shadow: inset 0px 2px 4px gray; border-bottom: solid lightgray 0.1em; border-radius: 0.5em; color: black; }";
+  cssNode.innerHTML += "#container { height: 69%; overflow: scroll; }";
   cssNode.innerHTML += "textarea { opacity:0 }";
   cssNode.innerHTML += ".jqconsole-cursor { background: gray; }";
   document.body.appendChild(cssNode);
@@ -30,6 +31,12 @@ $(function() {
   var grammarElement = $("grammar");
   PLT.parser = PEG.buildParser(grammarElement.text())
   grammarElement.remove();
+
+  // takes the content of the 'body' and moves it into the newly created <div id="container">
+  var body = $('body').html();
+  $('body').html('');
+  $('body').prepend('<div id="container"></div>');
+  $('#container').html(body);
 
   // build repl object
   $('<div id="repl">').
