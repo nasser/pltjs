@@ -21,7 +21,9 @@ $(function() {
   var cssNode = document.createElement('style');
   cssNode.innerHTML = "body { font-family: sans-serif; }";
   cssNode.innerHTML += "code { display: block; white-space: pre; margin-bottom: 1em; }";
-  cssNode.innerHTML += "#repl { height: 50px; }";
+  cssNode.innerHTML += "#repl { height: 1em; }";
+  cssNode.innerHTML += "#repl .error { color: red; }";
+  cssNode.innerHTML += "#repl pre { background: #eee; padding: 5px; }";
   cssNode.innerHTML += "textarea { opacity:0 }";
   cssNode.innerHTML += ".jqconsole-cursor { background: gray; }";
   document.body.appendChild(cssNode);
@@ -30,6 +32,10 @@ $(function() {
   var grammarElement = $("grammar");
   PLT.parser = PEG.buildParser(grammarElement.text())
   grammarElement.remove();
+
+  var stringifiedParse = function(source) {
+    return JSON.stringify(PLT.parser.parse(source));
+  }
 
   // build repl object
   $('<div id="repl">').
@@ -40,16 +46,24 @@ $(function() {
   var startPrompt = function () {
     repl.Prompt(true, function (input) {
       try {
-        var evalfn = PLT.repl || PLT.eval || PLT.parser.parse;
-        repl.Write(PLT.parser.parse(input) + '\n', 'jqconsole-output');
+        var evalfn = PLT.repl || stringifiedParse;
+        repl.Write(evalfn(input) + '\n', 'jqconsole-output');
       } catch(err) {
-        repl.Append($("<span>" + err.message + "</span>").css('color', 'red'))
-        repl.Write("\n");
+        repl.Write(err.message + "\n", 'error');
       }
       startPrompt();
+
+      // scroll to the repl when on new line
+      repl.$console.get(0).scrollIntoView();
     });
   }
   startPrompt();
+
+  // scroll to the repl when a key is pressed
+  repl.$input_source.keypress(function() { repl.$console.get(0).scrollIntoView(); });
+
+  // focus the repl by default
+  repl.Focus();
 
   $('<h2>' + $('title').text() + '</h2>').
     prependTo("body");
@@ -58,8 +72,7 @@ $(function() {
   var goods = document.querySelectorAll("code:not([bad])")
   for (var i = 0; i < goods.length; i++) {
     try {
-      var ast = PLT.parser.parse(goods[i].textContent);
-      var str = JSON.stringify(ast);
+      var str = stringifiedParse(goods[i].textContent);
       // the code parsed, append result in grey
       goods[i].innerHTML += "\n<em style='color:gray'>&#8627; " + str + "</em>";
 
@@ -74,8 +87,7 @@ $(function() {
   var bads = document.querySelectorAll("code[bad]")
   for (var i = 0; i < bads.length; i++) {
     try {
-      var ast = PLT.parser.parse(bads[i].textContent);
-      var str = JSON.stringify(ast);
+      var str = stringifiedParse(goods[i].textContent);
       // the code parsed, append result in red
       bads[i].innerHTML += "\n<em style='color:red;'>&#8627; " + str + "</em>";
 
