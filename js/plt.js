@@ -103,7 +103,7 @@ $(function() {
         lineError = "<br>\t" + "Line " + err.line + " Column "+err.column;
       }
 
-      goods[i].innerHTML += "\n<em style='color:red;'>"+carrot+"&#8627; " + err.message + lineError + "</em>";
+      goods[i].innerHTML += "\n<span style='color:red;'>" + carrot + " " + err.message + lineError + "</em>";
     }
   }
 
