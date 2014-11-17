@@ -100,7 +100,7 @@ $(function() {
       // If there is line info, add information about where the error is
       var lineError = '';
       if(err.line){
-        lineError = "<br>\t" + "Line " + err.line + " Column "+err.column;
+        lineError = "<br>\t" + "Line " + err.line + " Column " + err.column;
       }
 
       goods[i].innerHTML += "\n<span style='color:red;'>" + carrot + " " + err.message + lineError + "</em>";
