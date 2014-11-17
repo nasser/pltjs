@@ -94,7 +94,7 @@ $(function() {
       // Add carrot to show the position of the error
       var carrot = '';
       if(err.line == goods[i].textContent.split('\n').length){
-        carrot = Array(err.column).join(' ')+'^\n'
+        carrot = Array(err.column).join(' ')+'&uarr;\n'
       }
 
       // If there is line info, add information about where the error is
