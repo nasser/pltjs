@@ -60,13 +60,37 @@ $(function() {
     try {
       var ast = PLT.parser.parse(goods[i].textContent);
       var str = JSON.stringify(ast);
+
+      // Look for expected attribute like this: <code expected="true">
+      if(goods[i].attributes.getNamedItem('expect')){
+        var expectedValue = goods[i].attributes.getNamedItem('expect').value;
+
+        // Validate that the expected value matches the returned value
+        if(expectedValue != str){
+          var error = new Error('Expected '+expectedValue+" but got "+str)
+          error.line = 0;
+          throw error; 
+        }
+      }
       // the code parsed, append result in grey
       goods[i].innerHTML += "\n<em style='color:gray'>&#8627; " + str + "</em>";
 
     } catch (err) {
       // the code did not parse, append result in red
-      goods[i].innerHTML += "\n<em style='color:red;'>&#8627; " + err.message + "</em>";
+      
+      // Add carrot to show the position of the error
+      var carrot = '';
+      if(err.line == goods[i].textContent.split('\n').length){
+        carrot = Array(err.column).join(' ')+'^\n'
+      }
 
+      // If there is line info, add information about where the error is
+      var lineError = '';
+      if(err.line){
+        lineError = "<br>\t" + "Line " + err.line + " Column "+err.column;
+      }
+
+      goods[i].innerHTML += "\n<em style='color:red;'>"+carrot+"&#8627; " + err.message + lineError + "</em>";
     }
   }
 
