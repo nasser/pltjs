@@ -78,8 +78,11 @@ $(function() {
       if(goods[i].attributes.getNamedItem('expect')){
         var expectedValue = goods[i].attributes.getNamedItem('expect').value;
 
+        // Create a regEx from the expectedValue
+        var re = new RegExp(expectedValue, "");
+
         // Validate that the expected value matches the returned value
-        if(expectedValue != str){
+        if(!str.match(re)){
           var error = new Error('Expected '+expectedValue+" but got "+str)
           error.line = 0;
           throw error; 
