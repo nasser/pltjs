@@ -70,7 +70,7 @@ To test your language, add the `expect` tag to your code examples:
 
 Errors will appear inline:
 
-![image]('/img/error.png')
+![image](/img/error.png)
 
 Name
 ----
