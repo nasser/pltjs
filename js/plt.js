@@ -74,12 +74,12 @@ $(function() {
     try {
       var str = stringifiedParse(goods[i].textContent);
 
-      // Look for expected attribute like this: <code expected="true">
+      // Look for expected attribute like this: <code expect="true">
       if(goods[i].attributes.getNamedItem('expect')){
         var expectedValue = goods[i].attributes.getNamedItem('expect').value;
 
         // Create a regEx from the expectedValue
-        var re = new RegExp(expectedValue, "");
+        var re = new RegExp('^'+ expectedValue + '$', '');
 
         // Validate that the expected value matches the returned value
         if(!str.match(re)){
