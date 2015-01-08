@@ -58,6 +58,20 @@ Usage
 
 `plt.js` is designed to work offline. The only constraint is that your `your-language.html` file must be in the same folder as the `js/` folder where plt.js keeps its files.
 
+Testing
+-------
+To test your language, add the `expect` tag to your code examples:
+
+```
+<code expect="15">(+ 5 10)</code>
+<code expect="20">(+7 13)</code>
+<code expect="20">(+ 7 13)</code>
+```
+
+Errors will appear inline:
+
+![image](/img/error.png)
+
 Name
 ----
 PLT is short for [Programming Language Theory](http://en.wikipedia.org/wiki/Programming_language_theory), the branch of computer science that deals with the design and implementation of programming languages.
